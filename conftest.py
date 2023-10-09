@@ -1,24 +1,19 @@
 import os
 import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from zipfile import ZipFile
+
+#Создание архива с файлами
+def file_archiving(path, Zip_File):
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            file_path = os.path.join(root, file)
+            Zip_File.write(file_path, arcname=file)
+
 
 @pytest.fixture(scope="function")
-def our_browser():
-    current_file = os.path.abspath(__file__) # Находим путь к текущему файлу
-    project_root_dir = os.path.dirname(current_file)   #Отрезает название файла от общего пути. и оставляет общий путь до дириктории
-    if not os.path.exists("tmp"): # Проверяет на наличие папки tmp в пути
-        os.mkdir("tmp")
-    options = webdriver.ChromeOptions()
+def dell_zip():
 
-    # Переобпределяем дефолтные пути сохранения файла
-    prefs = {
-        "download.default_directory": os.path.join(project_root_dir, "tmp"),
-        "download.promt_for_download": False
-    }
+    yield
 
-    options.add_experimental_option("prefs", prefs) # добавляются опции в общий словарь
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    return driver
-
+    if os.path.exists("tmp/Python.zip"):
+        os.remove("tmp/Python.zip")
