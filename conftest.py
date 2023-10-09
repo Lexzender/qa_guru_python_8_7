@@ -12,6 +12,8 @@ def file_archiving(path, Zip_File):
 
 @pytest.fixture(scope="function")
 def dell_zip():
+    if not os.path.exists("tmp"):
+        os.mkdir("tmp")
 
     yield
 
