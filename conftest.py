@@ -1,8 +1,8 @@
 import os
 import pytest
-from zipfile import ZipFile
 
-#Создание архива с файлами
+
+# Создание архива с файлами
 def file_archiving(path, Zip_File):
     for root, dirs, files in os.walk(path):
         for file in files:
